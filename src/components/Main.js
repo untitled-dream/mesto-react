@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Card from './Card';
-import api from '../utils/api'
+import Api from '../utils/api'
 
 function Main(props) {
     const [userName, getUserName] = useState('');
@@ -9,7 +9,7 @@ function Main(props) {
     const [initialCards, getInitialCards] = useState([]);
 
     useEffect(() => {
-        api.getInitialData()
+        Api.getInitialData()
         .then((data) => {
             const [userData, cardsData] = data;
             getUserName(userData.name);
