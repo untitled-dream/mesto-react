@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "../App.css";
+
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -50,23 +50,23 @@ function App() {
         <PopupWithForm
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
-            title="Редактировать профиль"
-            name="profile-edit"
-            buttonText="Сохранить"
+            title='Редактировать профиль'
+            name='profile-edit'
+            buttonText='Сохранить'
         />
         <PopupWithForm
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-            title="Новое место"
-            name="card-add"
-            buttonText="Создать"
+            title='Новое место'
+            name='card-add'
+            buttonText='Создать'
         />
         <PopupWithForm
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
-            title="Обновить аватар"
-            name="avatar-update"
-            buttonText="Сохранить"
+            title='Обновить аватар'
+            name='avatar-update'
+            buttonText='Сохранить'
         />
 
         <ImagePopup
