@@ -6,10 +6,14 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+const strictMode = process.env.NODE_ENV === 'production';
+
 root.render(
-  <React.StrictMode>
-    <App/>
-  </React.StrictMode>
+  (strictMode && (
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  )) || <App />,
 );
 
 reportWebVitals();
