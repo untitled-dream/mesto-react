@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 function AddPlacePopup(props) {
@@ -12,10 +12,12 @@ function AddPlacePopup(props) {
       place: place.current.value,
       link: link.current.value
     })
+  }
 
+  useEffect(() => {
     place.current.value = '';
     link.current.value = '';
-  } 
+  }, [props.isOpen])
 
   return (
     <PopupWithForm
