@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from 'react';
 
 import Api from '../utils/Api'
-import { CurrentUserContext } from '../contexts/CurrentUserContext'
-
 import Header from './Header';
 import Main from './Main';
-import EditProfilePopup from './EditProfilePopup'
-import EditAvatarPopup from './EditAvatarPopup'
-import AddPlacePopup from './AddPlacePopup'
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
+import AddPlacePopup from './AddPlacePopup'
+import EditAvatarPopup from './EditAvatarPopup'
+import EditProfilePopup from './EditProfilePopup'
+
+import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
 function App() {
 
-  const [currentUser, setCurrentUser] = useState({});
   const [cardsArray, setCards] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
   
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+  
   const [selectedCard, setSelectedCard] = useState({ name: '', link: '' });
+
+  function handleAddPlaceClick() {
+    setAddPlacePopupOpen(!isAddPlacePopupOpen);
+  }
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -29,14 +34,11 @@ function App() {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
   }
 
-  function handleAddPlaceClick() {
-    setAddPlacePopupOpen(!isAddPlacePopupOpen);
-  }
-
   function closeAllPopups() {
+    setAddPlacePopupOpen(false);
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
-    setAddPlacePopupOpen(false);
+
     setSelectedCard({ name: '', link: '' })
   }
 
@@ -113,10 +115,15 @@ function App() {
       />
       <Footer />
 
-      <EditProfilePopup
-        isOpen={isEditProfilePopupOpen}
+      <ImagePopup
+        card={selectedCard}
         onClose={closeAllPopups}
-        onUpdateUser={handleUpdateUser}
+      />
+
+      <AddPlacePopup
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+        onAddPlace={handleAddPlaceSubmit}
       />
 
       <EditAvatarPopup
@@ -125,16 +132,11 @@ function App() {
         onUpdateAvatar={handleUpdateAvatar}
       />
 
-      <AddPlacePopup
-        isOpen={isAddPlacePopupOpen}
+      <EditProfilePopup
+        isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-        onAddPlace={handleAddPlaceSubmit}
-      />
-      
-      <ImagePopup
-        card={selectedCard}
-        onClose={closeAllPopups}
-      />
+        onUpdateUser={handleUpdateUser}
+      />      
     </CurrentUserContext.Provider>
   );
 }

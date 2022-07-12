@@ -33,7 +33,6 @@ function Card(props) {
       { isOwnCard && 
         <button className='elements__trash-button' onClick={handleDeleteClick} type='button' title='Удалить запись'></button>
       }
-      
     </li>
   );
 }
