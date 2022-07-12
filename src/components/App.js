@@ -5,6 +5,8 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
 import Header from './Header';
 import Main from './Main';
+import EditProfilePopup from './EditProfilePopup'
+import EditAvatarPopup from './EditAvatarPopup'
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
@@ -49,6 +51,24 @@ function App() {
     setSelectedCard(card)
   }
 
+  function handleUpdateUser(data) {
+    Api.setUserData(data)
+      .then((data) => {
+        setCurrentUser(data);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err))
+  }
+
+  function handleUpdateAvatar(data) {
+    Api.setUserAvatar(data)
+      .then((data) => {
+        setCurrentUser(data);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err))
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Header />
@@ -60,22 +80,17 @@ function App() {
       />
       <Footer />
 
-      <PopupWithForm
+      <EditProfilePopup
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-        title='Редактировать профиль'
-        name='profile-edit'
-        buttonText='Сохранить'
-      >
-        <label className='form__field'>
-          <input className='form__input' id='name' name='name' minLength='2' maxLength='40' placeholder='Имя' autoComplete='off' required />
-          <span className='form__input-error name-error'></span>
-        </label>
-        <label className='form__field'>
-          <input className='form__input' id='about' name='about' minLength='2' maxLength='200' placeholder='О себе' autoComplete='off' required />
-          <span className='form__input-error about-error'></span>
-        </label>
-      </PopupWithForm>
+        onUpdateUser={handleUpdateUser}
+      />
+
+      <EditAvatarPopup
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+        onUpdateAvatar={handleUpdateAvatar}
+      /> 
 
       <PopupWithForm
         isOpen={isAddPlacePopupOpen}
@@ -93,18 +108,7 @@ function App() {
           <span className='form__input-error link-error'></span>
         </label>
       </PopupWithForm>
-      <PopupWithForm
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-        title='Обновить аватар'
-        name='avatar-update'
-        buttonText='Сохранить'
-      >
-        <label className='form__field'>
-          <input className='form__input' id='avatar' name='avatar' type='url' placeholder='Ссылка на фотографию' autoComplete='off' required />
-          <span className='form__input-error avatar-error'></span>
-        </label>
-      </PopupWithForm>
+      
       <ImagePopup
         card={selectedCard}
         onClose={closeAllPopups}
