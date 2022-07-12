@@ -24,7 +24,11 @@
 
 ## Features
 - Receiving and sending data via API
-- Viewing Images
+- Viewing images
+- Adding new content
+- Deleting content
+- Editing user data
+- Set like or dislike
 
 
 ## Setup
