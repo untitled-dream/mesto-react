@@ -3,13 +3,15 @@ import PopupWithForm from './PopupWithForm';
 
 function EditAvatarPopup(props) {
 
-  const avatar = useRef();
+  const avatar = useRef('');
 
   function handleSubmit(evt) {
     evt.preventDefault();
     props.onUpdateAvatar({
       avatar: avatar.current.value
     })
+
+    avatar.current.value = '';
   } 
 
   return (
@@ -30,6 +32,7 @@ function EditAvatarPopup(props) {
           placeholder='Ссылка на фотографию'
           autoComplete='off'
           ref={avatar}
+          defaultValue=''
           required
         />
         <span className='form__input-error avatar-error'></span>

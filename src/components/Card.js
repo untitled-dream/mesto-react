@@ -30,7 +30,8 @@ function Card(props) {
           <span className='elements__like-counter'>{props.card.likes.length}</span>
         </div>
       </div>
-      {isOwnCard && <button className='elements__trash-button' onClick={handleDeleteClick} type='button' title='Удалить запись'></button>
+      { isOwnCard && 
+        <button className='elements__trash-button' onClick={handleDeleteClick} type='button' title='Удалить запись'></button>
       }
       
     </li>

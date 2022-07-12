@@ -7,22 +7,15 @@ import Header from './Header';
 import Main from './Main';
 import EditProfilePopup from './EditProfilePopup'
 import EditAvatarPopup from './EditAvatarPopup'
+import AddPlacePopup from './AddPlacePopup'
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 
 function App() {
 
   const [currentUser, setCurrentUser] = useState({});
-
-  useEffect(() => {
-    Api.getUserData()
-      .then((data) => {
-        setCurrentUser(data);
-      })
-      .catch((err) => console.log(err))
-  }, [])
-
+  const [cardsArray, setCards] = useState([]);
+  
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
@@ -69,6 +62,43 @@ function App() {
       .catch((err) => console.log(err))
   }
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    Api.changeLikeCardStatus(card._id, !isLiked)
+      .then((card) => {
+        setCards((state) => state.map((currentCard) => currentCard._id === card._id ? card : currentCard));
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handleCardDelete(card) {
+    Api.removeCard(card._id)
+      .then(() => {
+        const newCardsArray = cardsArray.filter(item => item !== card);
+        setCards(newCardsArray);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handleAddPlaceSubmit(data) {
+    Api.sendCard(data)
+      .then((newCard) => {
+        setCards([newCard, ...cardsArray]);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    Api.getInitialData()
+      .then((data) => {
+        const [userInfo, cardsData] = data;
+        setCards(cardsData);
+        setCurrentUser(userInfo);
+      })
+      .catch((err) => console.log(err))
+  }, [])
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Header />
@@ -76,7 +106,10 @@ function App() {
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
+        cardsArray={cardsArray}
         onCardClick={handleCardClick}
+        onCardLike={handleCardLike}
+        onCardDelete={handleCardDelete}
       />
       <Footer />
 
@@ -90,24 +123,13 @@ function App() {
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
         onUpdateAvatar={handleUpdateAvatar}
-      /> 
+      />
 
-      <PopupWithForm
+      <AddPlacePopup
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
-        title='Новое место'
-        name='card-add'
-        buttonText='Создать'
-      >
-        <label className='form__field'>
-          <input className='form__input' id='place' name='place' minLength='2' maxLength='30' placeholder='Название' autoComplete='off' required />
-          <span className='form__input-error place-error'></span>
-        </label>
-        <label className='form__field'>
-          <input className='form__input' id='link' name='link' type='url' placeholder='Ссылка на картинку' autoComplete='off' required />
-          <span className='form__input-error link-error'></span>
-        </label>
-      </PopupWithForm>
+        onAddPlace={handleAddPlaceSubmit}
+      />
       
       <ImagePopup
         card={selectedCard}
