@@ -29,7 +29,7 @@ class Api {
 
   setUserData(data) {
     return fetch(`${this._baseURL}/users/me`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
@@ -40,7 +40,7 @@ class Api {
 
   setUserAvatar(data) {
     return fetch(`${this._baseURL}/users/me/avatar`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         avatar: data.avatar
@@ -50,7 +50,7 @@ class Api {
 
   sendCard(data) {
     return fetch(`${this._baseURL}/cards`, {
-      method: "POST",
+      method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
         name: data.place,
@@ -60,37 +60,22 @@ class Api {
   }
 
   changeLikeCardStatus(id, isLiked) {
-    if (isLiked) {
-      return this.setLike(id);
-    } else {
-      return this.removeLike(id);
-    }
-  }
-
-  setLike(data) {
-    return fetch(`${this._baseURL}/cards/${data}/likes`, {
-      method: "PUT",
-      headers: this._headers
-    }).then(this._defaultResponse)
-  }
-
-  removeLike(data) {
-    return fetch(`${this._baseURL}/cards/${data}/likes`, {
-      method: "DELETE",
+    return fetch(`${this._baseURL}/cards/${id}/likes`, {
+      method: isLiked ? 'PUT' : 'DELETE',
       headers: this._headers
     }).then(this._defaultResponse)
   }
 
   removeCard(data) {
     return fetch(`${this._baseURL}/cards/${data}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: this._headers
     }).then(this._defaultResponse)
   }
 
   updateProfilePhoto(data) {
     return fetch(`${this._baseURL}/users/me/avatar`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         avatar: data.avatar
@@ -102,8 +87,8 @@ class Api {
 const api = new Api({
   baseURL: 'https://mesto.nomoreparties.co/v1/cohort-43',
   headers: {
-    authorization: "c8b0aa60-35b2-4dbb-ac6e-5a0006835602",
-    'Content-Type': "application/json"
+    authorization: 'c8b0aa60-35b2-4dbb-ac6e-5a0006835602',
+    'Content-Type': 'application/json'
   }
 });
 

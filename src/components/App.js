@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import Api from '../utils/Api'
+
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -9,10 +10,12 @@ import AddPlacePopup from './AddPlacePopup'
 import EditAvatarPopup from './EditAvatarPopup'
 import EditProfilePopup from './EditProfilePopup'
 
+import headerLogo from '../images/header-logo.svg';
+
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
-function App() {
 
+function App() {
   const [cardsArray, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   
@@ -103,7 +106,7 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Header />
+      <Header logo={headerLogo}/>
       <Main
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}

@@ -1,5 +1,3 @@
-import React from 'react';
-
 function ImagePopup(props) {
   return (
     <div className={`popup popup_dark-background ${props.card.link && 'popup_opened'}`} id='card-view'>

@@ -1,9 +1,7 @@
-import headerLogo from '../images/header-logo.svg';
-
-function Header() {
+function Header(props) {
   return (
     <header className='header'>
-      <img className='header__logo' src={headerLogo} lang='en' alt='Mesto - Russia'/>
+      <img className='header__logo' src={props.logo} lang='en' alt='Mesto - Russia Logo'/>
     </header>
   );
 }
